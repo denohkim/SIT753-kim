@@ -25,21 +25,30 @@ pipeline {
                 echo 'Running unit and integration tests'
                 // Placeholder for actual test commands
                 sh 'echo "Running tests..."'
-            }
+            } 
             post {
-                always {
-                    emailext (
-                        subject: "Test Stage Status: ${currentBuild.result}",
-                        body: """
-                            <p>Test stage has completed with status: ${currentBuild.result}</p>
-                            <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>
-                        """,
-                        to: 'denniskimkimaiyo@gmail.com',
-                        attachLog: true,
-                        compressLog: true,
-                        mimeType: 'text/html'
-                    )
-                }
+                    always {
+                        mail to: 'denniskimkimaiyo@gmail.com',
+                             subject: "Pipeline Status: ${currentBuild.result}",
+                             body: "Build ${env.BUILD_NUMBER} completed with status: ${currentBuild.result}"
+                    }
+            // post {
+            //     always {
+            //         emailext (
+            //             subject: "Test Stage Status: ${currentBuild.result}",
+            //             body: """
+            //                 <p>Test stage has completed with status: ${currentBuild.result}</p>
+            //                 <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>
+            //             """,
+            //             to: 'denniskimkimaiyo@gmail.com',
+            //             attachLog: true,
+            //             compressLog: true,
+            //             mimeType: 'text/html'
+            //         )
+            //     }
+
+           
+
             }
         }
         
